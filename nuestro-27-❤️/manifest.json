@@ -1,0 +1,18 @@
+
+{
+  "short_name": "Nuestro 27",
+  "name": "Nuestro 27 ❤️ - Aniversario",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/833/833472.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#f43f5e",
+  "background_color": "#0f172a",
+  "orientation": "portrait"
+}

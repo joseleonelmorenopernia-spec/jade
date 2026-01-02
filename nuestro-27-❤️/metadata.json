@@ -1,0 +1,7 @@
+{
+  "name": "Nuestro 27 ❤️",
+  "description": "Una app dedicada a celebrar nuestro amor cada día 27. Cuenta regresiva, mensajes personalizados y fondos modificables.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
