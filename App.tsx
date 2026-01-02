@@ -91,14 +91,13 @@ const App: React.FC = () => {
   useEffect(() => {
     if (isAnniversary && !specialMessage) {
       const now = new Date();
-      // Verificamos si es 27 de Febrero (Mes 1 en JS, ya que Enero es 0)
       if (now.getMonth() === 1 && now.getDate() === 27) {
         setSpecialMessage("¡Feliz primer año juntos, mi amor! ❤️ Un año de risas, de apoyo y de un amor inmenso. Eres lo mejor de mi vida. Por muchísimos años más.");
       } else {
         generateAnniversaryMessage().then(setSpecialMessage);
       }
     } else if (!isAnniversary) {
-      setSpecialMessage(""); // Resetear mensaje para el próximo mes
+      setSpecialMessage("");
     }
   }, [isAnniversary, specialMessage]);
 
@@ -206,6 +205,13 @@ const App: React.FC = () => {
     );
   };
 
+  const gitCommands = `git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/joseleonelmorenopernia-spec/jade.git
+git push -u origin main`;
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 transition-all duration-1000" style={containerStyle}>
       <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
@@ -290,22 +296,15 @@ const App: React.FC = () => {
         </button>
       </div>
 
-      {/* Modal Containers and other sub-components... (mantener el resto igual) */}
-      {/* ... */}
-      
       {/* Gallery Modal */}
       {showGallery && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900/90 w-full max-w-4xl h-[85vh] overflow-y-auto rounded-[40px] p-6 md:p-10 border border-slate-800 shadow-2xl relative">
-            <button 
-              onClick={() => setShowGallery(false)}
-              className="absolute top-6 right-6 z-50 p-2 bg-white/10 rounded-full text-white/60 hover:text-white"
-            >
+            <button onClick={() => setShowGallery(false)} className="absolute top-6 right-6 z-50 p-2 bg-white/10 rounded-full text-white/60 hover:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            
             <div className="flex justify-between items-center mb-8 px-2">
               <div>
                 <h2 className="text-2xl font-bold text-white">Nuestros Recuerdos</h2>
@@ -318,28 +317,19 @@ const App: React.FC = () => {
                 <input type="file" className="hidden" accept="image/*" onChange={handleAddMemory} />
               </label>
             </div>
-            
             {memories.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-64 text-white/20">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <p className="text-sm font-medium">Aún no hay fotos. ¡Añade nuestro primer recuerdo!</p>
+                <p className="text-sm font-medium">Aún no hay fotos.</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {memories.map((memory) => (
                   <div key={memory.id} className="group relative aspect-square rounded-2xl overflow-hidden border border-white/5 bg-white/5">
-                    <img 
-                      src={memory.url} 
-                      alt="Memory" 
-                      className="w-full h-full object-cover cursor-pointer hover:scale-110 transition-transform duration-500"
-                      onClick={() => setSelectedPhoto(memory.url)}
-                    />
-                    <button 
-                      onClick={() => deleteMemory(memory.id)}
-                      className="absolute top-2 right-2 p-1.5 bg-black/50 text-white/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500"
-                    >
+                    <img src={memory.url} alt="Memory" className="w-full h-full object-cover cursor-pointer hover:scale-110 transition-transform duration-500" onClick={() => setSelectedPhoto(memory.url)} />
+                    <button onClick={() => deleteMemory(memory.id)} className="absolute top-2 right-2 p-1.5 bg-black/50 text-white/70 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
@@ -352,39 +342,24 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Lightbox */}
       {selectedPhoto && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fadeIn"
-          onClick={() => setSelectedPhoto(null)}
-        >
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fadeIn" onClick={() => setSelectedPhoto(null)}>
           <img src={selectedPhoto} className="max-w-full max-h-full rounded-2xl shadow-2xl" alt="Enlarged memory" />
-          <button className="absolute top-6 right-6 text-white p-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
         </div>
       )}
 
-      {/* Calendar Modal */}
       {showCalendar && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
           <div className="bg-slate-900/90 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[40px] p-6 md:p-10 border border-slate-800 shadow-2xl relative text-center">
-            <button 
-              onClick={() => setShowCalendar(false)}
-              className="absolute top-6 right-6 p-2 bg-white/10 rounded-full text-white/60 hover:text-white"
-            >
+            <button onClick={() => setShowCalendar(false)} className="absolute top-6 right-6 p-2 bg-white/10 rounded-full text-white/60 hover:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             <h2 className="text-2xl font-bold text-white mb-2">Calendario de Amor</h2>
-            <p className="text-white/40 text-xs mb-8 uppercase tracking-[0.3em]">Nuestros días 27 en {new Date().getFullYear()}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
               {months.map((_, i) => renderMonth(i))}
             </div>
-            <button onClick={() => setShowCalendar(false)} className="w-full mt-8 py-4 bg-red-600/20 text-red-500 font-bold rounded-2xl border border-red-500/30">Cerrar</button>
           </div>
         </div>
       )}
@@ -392,11 +367,10 @@ const App: React.FC = () => {
       {/* Settings Modal */}
       {showSettings && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-slate-900 w-full max-w-sm rounded-[32px] p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+          <div className="bg-slate-900 w-full max-w-sm max-h-[85vh] overflow-y-auto rounded-[32px] p-8 border border-slate-800 shadow-2xl relative">
             <h2 className="text-xl font-bold text-white mb-6">Personalizar App</h2>
             <div className="space-y-6">
               
-              {/* Notificaciones Toggle */}
               <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-lg ${config.notificationsEnabled ? 'bg-red-500/20 text-red-500' : 'bg-slate-700 text-slate-400'}`}>
@@ -404,15 +378,9 @@ const App: React.FC = () => {
                       <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                     </svg>
                   </div>
-                  <div>
-                    <p className="text-white text-sm font-medium">Alertas de 27</p>
-                    <p className="text-white/40 text-[10px] uppercase">Avisos de aniversario</p>
-                  </div>
+                  <p className="text-white text-sm font-medium">Alertas de 27</p>
                 </div>
-                <button 
-                  onClick={() => config.notificationsEnabled ? setConfig(prev => ({...prev, notificationsEnabled: false})) : requestNotificationPermission()}
-                  className={`w-12 h-6 rounded-full transition-colors relative ${config.notificationsEnabled ? 'bg-red-500' : 'bg-slate-700'}`}
-                >
+                <button onClick={() => config.notificationsEnabled ? setConfig(prev => ({...prev, notificationsEnabled: false})) : requestNotificationPermission()} className={`w-12 h-6 rounded-full transition-colors relative ${config.notificationsEnabled ? 'bg-red-500' : 'bg-slate-700'}`}>
                   <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${config.notificationsEnabled ? 'left-7' : 'left-1'}`} />
                 </button>
               </div>
@@ -420,32 +388,29 @@ const App: React.FC = () => {
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Fondo Predefinido</label>
                 <div className="grid grid-cols-3 gap-2">
-                  {[
-                    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    'linear-gradient(135deg, #22c1c3 0%, #fdbb2d 100%)'
-                  ].map((bg, i) => (
-                    <button 
-                      key={i}
-                      onClick={() => setConfig(prev => ({ ...prev, backgroundType: 'gradient', backgroundValue: bg }))}
-                      className="h-12 rounded-xl border border-white/10 hover:scale-105 transition-transform"
-                      style={{ background: bg }}
-                    />
+                  {['linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 'linear-gradient(135deg, #22c1c3 0%, #fdbb2d 100%)'].map((bg, i) => (
+                    <button key={i} onClick={() => setConfig(prev => ({ ...prev, backgroundType: 'gradient', backgroundValue: bg }))} className="h-12 rounded-xl border border-white/10 hover:scale-105 transition-transform" style={{ background: bg }} />
                   ))}
                 </div>
               </div>
+
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Tu propia foto de fondo</label>
-                <label className="flex items-center justify-center w-full h-24 border-2 border-dashed border-slate-700 rounded-2xl cursor-pointer hover:border-indigo-500 hover:bg-indigo-500/5 transition-all">
-                  <div className="text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-slate-400 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                    </svg>
-                    <span className="text-xs text-slate-400">Subir Imagen</span>
-                  </div>
-                  <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
-                </label>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">🚀 Despliegue en GitHub</label>
+                <div className="bg-black/40 p-3 rounded-xl border border-white/5 font-mono text-[10px] text-slate-300 relative overflow-hidden group">
+                  <pre className="whitespace-pre-wrap">{gitCommands}</pre>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(gitCommands);
+                      alert("¡Comandos copiados!");
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-indigo-500/20 text-indigo-400 rounded-lg hover:bg-indigo-500/40 transition-colors"
+                  >
+                    Copiar
+                  </button>
+                </div>
+                <p className="text-[9px] text-slate-500 mt-2 italic text-center">Ejecuta estos comandos en tu PC para subir "jade".</p>
               </div>
+
               <button onClick={() => setShowSettings(false)} className="w-full py-4 bg-indigo-600 text-white font-bold rounded-2xl transition-all shadow-lg">Listo</button>
             </div>
           </div>
@@ -453,23 +418,10 @@ const App: React.FC = () => {
       )}
 
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.4s ease-out forwards;
-        }
-        ::-webkit-scrollbar {
-          width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
       `}</style>
     </div>
   );
